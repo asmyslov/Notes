@@ -1,0 +1,339 @@
+'''
+https://stackabuse.com/linked-lists-in-detail-with-python-examples-single-linked-lists/#countingelements
+'''
+
+
+class Node:
+    def __init__(self,value):
+        self.value = value
+        self.next = None
+
+
+class SList:
+    def __init__(self):
+        self.head = None
+
+
+
+    def add_node(self, value):
+
+        new_node = Node(value)
+
+        if self.head == None:
+            self.head = new_node
+        else:
+            runner = self.head
+
+            while runner.next != None:
+                runner = runner.next
+            runner.next = new_node
+
+
+    def traverse_list(self):
+        if self.head is None:
+            print("List has no elements")
+            return
+        else:
+            runner = self.head
+            while runner is not None:
+                print(runner.value, " ")
+                runner = runner.next
+
+
+    def printAllValues(self):
+        runner = self.head
+        print(f"\n\nhead points to {id(self.head)}")
+        print("Printing the values in the list")
+
+        while (runner.next != None):
+            print(id(runner), runner.value, id(runner.next))
+            runner = runner.next
+        print(id(runner), runner.value, id(runner.next))
+
+
+    def insert_at_start(self, value):
+        new_node = Node(value)
+        new_node.next = self.head
+        self.head = new_node
+
+
+    def insert_at_end(self,value):
+        new_node = Node(value)
+        if self.head is None:
+            self.head = new_node
+            return
+
+        runner = self.head
+        while runner.next is not None:
+            runner = runner.next
+        runner.next = new_node
+
+
+    def insert_after_item(self, index, value):
+        runner = self.head
+        print(runner.next)
+
+        while runner is not None:
+            if runner.value == index:
+                break
+            runner = runner.next
+
+        if runner is None:
+            print("Item not in the list")
+
+        else:
+            new_node = Node(value)
+            new_node.next = runner.next
+            runner.next = new_node
+
+
+    def insert_before_item(self, index, value):
+        if self.head is None:
+            print("List has no element")
+            return
+
+        if index == self.head.value:
+            new_node = Node(value)
+            new_node.next = self.head
+            self.head = new_node
+            return
+
+        runner = self.head
+        print(runner.next)
+
+        while runner.next is not None:
+            if runner.next.value == index:
+                break
+            runner = runner.next
+        if runner.next is None:
+            print("Item not in the list")
+        else:
+            new_node = Node(value)
+            new_node.next = runner.next
+            runner.next = new_node
+
+
+    def insert_at_index(self,index, value):
+        if index == 1:
+            new_node = Node(value)
+            new_node.next = self.head
+            self.head = new_node
+
+        i = 1
+        runner = self.head
+
+        while i < index - 1 and runner is not None:
+            runner = runner.next
+            i = i + 1
+        if runner is None:
+            print("Index out of bound")
+        else:
+            new_node = Node(value)
+            new_node.next = runner.next
+            runner.next = new_node
+
+
+    def list_length (self):
+        '''Returns the nubmer of list items'''
+        count = 0
+
+        runner = self.head
+        while runner is not None:
+            count = count + 1
+            runner = runner.next
+
+        return count
+
+
+    def search_item(self, item):
+        if self.head is None:
+            print("List has no elements")
+            return
+
+        runner = self.head
+
+        while runner is not None:
+            if runner.value == item:
+                print(f"Item found : {item}")
+                return True
+            runner = runner.next
+        print("Item not found")
+        return False
+
+
+    def make_new_list(self):
+        nums = int(input("How many nodes do you want to create: "))
+        if nums == 0:
+            return
+
+        for i in range(nums):
+            value = int(input("Enter the value for the node: "))
+            self.insert_at_end(value)
+
+
+    def delete_at_start(self):
+        if self.head is None:
+            print("The list has no element to delete")
+            return
+        self.head = self.head.next
+
+
+    def delete_at_end(self):
+        if self.head is None:
+            print("The list has no element to delete")
+            return
+
+        runner = self.head
+        while runner.next.next is not None:
+            runner = runner.next
+        runner.next = None
+
+
+    def delete_element_by_value(self, value):
+        if self.head is None:
+            print("The list has no element to delete")
+            return
+
+        # Deleting first node
+        if self.head.value == value:
+            self.head = self.head.next
+            return
+
+        runner = self.head
+        while runner.next is not None:
+            if runner.next.value == value:
+                break
+            runner = runner.next
+
+        if runner.next is None:
+            print("Item not found in the list")
+        else:
+            runner.next = runner.next.next
+
+
+    def reverse_linkedList(self):
+        prev = None
+        runner = self.head
+
+        while runner is not None:
+            next = runner.next
+            runner.next = prev
+            prev = runner
+            runner = next
+
+        self.head = prev
+
+
+    def deleteAll(self):
+        temp = self.head
+
+        if temp is None:
+            print("\nNot possible to delete empty list")
+
+        while temp:
+            self.head = temp.next
+            temp = None
+            temp = self.head
+
+        print("List has been deleted. Message from function")
+        
+        
+    def buble_sort_dataChange(self):
+        '''sorting the linked list using bubble sort by exchanging the data'''
+        end = None
+        while end != self.head:
+            p = self.head
+            while p.next != end:
+                q = p.next
+                if p.value > q.value:
+                    p.value, q.value = q.value, p.value
+                p = p.next
+            end = p
+
+
+
+    def buble_sort_linkChange(self):
+        '''sort a linked list by modifying the links instead of changing data'''
+        end = None
+        while end != self.head:
+            r = p = self.head
+            while p.next != end:
+                q = p.next
+                if p.value > q.value:
+                    p.next = q.next
+                    q.next = p
+
+                    if p != self.head:
+                        r.next = q
+                    else:
+                        self.head = q
+                    p,q = q,p
+
+                r = p
+                p = p.next
+            end = p
+
+
+
+print("************************")
+
+
+sll = SList()
+sll.add_node(-6)
+sll.add_node(-2)
+sll.add_node(0)
+#
+sll.insert_at_start(1)
+sll.insert_at_start(2)
+#
+sll.traverse_list()
+#
+print(f"List length: {sll.list_length()}")
+#
+sll.printAllValues()
+
+
+# sll.insert_at_end(7)
+#
+# sll.insert_after_item(13, 44)
+#
+# sll.insert_before_item(7, 49)
+#
+# sll.insert_at_index(2,3)
+#
+# sll.search_item(4)
+#
+# sll.make_new_list()
+#
+# sll.delete_at_start()
+#
+# sll.delete_at_end()
+#
+# sll.delete_element_by_value(4)
+#
+# sll.delete_element_by_value(15)
+#
+# sll.reverse_linkedList()
+#
+# sll.deleteAll()
+#
+sll.buble_sort_dataChange()
+#
+# sll.buble_sort_linkChange()
+#
+sll.printAllValues()
+
+
+
+
+
+class Node:
+    def __init__(self, data):		
+        self.item = data					self.value = value
+        self.ref = None					self.next = None
+
+
+
+class LinkedList:
+    def __init__(self):
+        self.start_node = None			self.head = None
